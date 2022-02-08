@@ -22,13 +22,13 @@ import SearchBar from "../../components/SearchBar";
 
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
-  const { children, center, ...restProps } = props;
+  const { children, ...restProps } = props;
   const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
     null
   );
   const [isShow, setIsShown] = useState(false);
   const [title, setTitle] = useState<string | undefined>(undefined);
-  const [position, setPosition] = useState<CoordinateType>(center);
+  const [position, setPosition] = useState<CoordinateType>(DEFAULT_CENTER);
 
   // ==============  FUNCTION
   const onCloseClick = () => {
