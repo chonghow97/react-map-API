@@ -5,7 +5,7 @@ import {
   DEFAULT_CENTER,
   DEFAULT_LOGO,
 } from "../../config/constant";
-import { CoordinateType } from "../../@types";
+import { AutocompleteType, CoordinateType } from "../../@types";
 
 import {
   GoogleMap,
@@ -23,29 +23,27 @@ import SearchBar from "../../components/SearchBar";
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
   const { children, center, ...restProps } = props;
-  const [autocomplete, setAutoComplete] =
-    useState<google.maps.places.Autocomplete | null>(null);
-
+  const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
+    null
+  );
   const [isShow, setIsShown] = useState(false);
-
+  const [title, setTitle] = useState<string | undefined>(undefined);
   const [position, setPosition] = useState<CoordinateType>(center);
 
+  // ==============  FUNCTION
   const onCloseClick = () => {
     setIsShown(false);
   };
 
-  // ==============  FUNCTION
-
-  const onLoad: (autocomplete: google.maps.places.Autocomplete) => void = (
-    autocomplete
-  ) => {
-    console.log("autocomplete: ", autocomplete);
+  const onLoad: (autocomplete: AutocompleteType) => void = (autocomplete) => {
     setAutoComplete(autocomplete);
   };
 
   const onPlaceChanged = () => {
     if (autocomplete !== null) {
-      const { location } = autocomplete.getPlace().geometry || {};
+      const { geometry, name } = autocomplete.getPlace() || {};
+      setTitle(name);
+      const { location } = geometry || {};
       setPosition(location);
     } else {
       console.error("unable to load cause autocomplete is null");
@@ -80,7 +78,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
           <InfoLayout
             onCloseClick={onCloseClick}
             position={position}
-            children={<MapInfoContainer />}
+            children={<MapInfoContainer title={title} />}
           />
         )}
         {children}
