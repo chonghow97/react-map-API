@@ -26,13 +26,13 @@ const Map: React.FC<GoogleMapProps> = (props) => {
   const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
     null
   );
-  const [isShow, setIsShown] = useState(false);
+  const [isOpenMapInfo, setisOpenMapInfo] = useState(false);
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [position, setPosition] = useState<CoordinateType>(DEFAULT_CENTER);
 
   // ==============  FUNCTION
   const onCloseClick = () => {
-    setIsShown(false);
+    setisOpenMapInfo(false);
   };
 
   const onLoad: (autocomplete: AutocompleteType) => void = (autocomplete) => {
@@ -52,7 +52,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
 
   const onClickMarker: (curr: CoordinateType) => void = (curr) => {
     setPosition(curr);
-    setIsShown(true);
+    setisOpenMapInfon(true);
   };
 
   // ==============  RENDER
@@ -74,7 +74,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
         />
 
         {/* Map Info */}
-        {isShow && (
+        {isOpenMapInfo && (
           <InfoLayout
             onCloseClick={onCloseClick}
             position={position}
