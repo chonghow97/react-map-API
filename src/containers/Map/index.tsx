@@ -17,8 +17,7 @@ import {
 
 import { MapInfoContainer } from "../MapInfoContainer";
 
-import InfoLayout from "../../components/InfoWindow";
-import SearchBar from "../../components/SearchBar";
+import { InfoLayout, SearchBar } from "../../components";
 
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
@@ -52,7 +51,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
 
   const onClickMarker: (curr: CoordinateType) => void = (curr) => {
     setPosition(curr);
-    setisOpenMapInfon(true);
+    setisOpenMapInfo(true);
   };
 
   // ==============  RENDER
