@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-import { DEFAULT_CENTER, DEFAULT_LOGO } from "../../config/constant";
+import {
+  DEFAULT_API_KEY,
+  DEFAULT_CENTER,
+  DEFAULT_LOGO,
+} from "../../config/constant";
 import { CoordinateType } from "../../@types";
 
 import {
@@ -16,20 +20,18 @@ import { MapInfoContainer } from "../MapInfoContainer";
 import InfoLayout from "../../components/InfoWindow";
 import SearchBar from "../../components/SearchBar";
 
-type Props = GoogleMapProps & {
-  googleMapsApiKey: string;
-};
-
-const Map: React.FC<Props> = (props) => {
+const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
-  const { googleMapsApiKey, children, ...restProps } = props;
-  // TODO: need a proper props
-  const [autocomplete, setAutoComplete] = useState<any>(null);
+  const { children, center, ...restProps } = props;
+  const [autocomplete, setAutoComplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
 
-  const [position, setPosition] = useState<CoordinateType>(undefined);
+  const [isShow, setIsShown] = useState(false);
+
+  const [position, setPosition] = useState<CoordinateType>(center);
 
   const onCloseClick = () => {
-    setPosition(undefined);
+    setIsShown(false);
   };
 
   // ==============  FUNCTION
@@ -43,21 +45,23 @@ const Map: React.FC<Props> = (props) => {
 
   const onPlaceChanged = () => {
     if (autocomplete !== null) {
-      console.log(autocomplete.getPlace());
+      const { location } = autocomplete.getPlace().geometry || {};
+      setPosition(location);
     } else {
-      console.log("fatch first");
+      console.error("unable to load cause autocomplete is null");
     }
   };
 
-  const onClickMarker: (coor: CoordinateType) => void = (coor) => {
-    setPosition(coor);
+  const onClickMarker: (curr: CoordinateType) => void = (curr) => {
+    setPosition(curr);
+    setIsShown(true);
   };
 
   // ==============  RENDER
   return (
-    <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={["places"]}>
+    <LoadScript googleMapsApiKey={DEFAULT_API_KEY} libraries={["places"]}>
       {/* Map */}
-      <GoogleMap {...restProps}>
+      <GoogleMap center={position} {...restProps}>
         {/* Auto Complete */}
         <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
           {/* Search Bar */}
@@ -66,15 +70,16 @@ const Map: React.FC<Props> = (props) => {
 
         {/* Marker */}
         <Marker
-          position={DEFAULT_CENTER}
+          position={position || DEFAULT_CENTER}
           icon={DEFAULT_LOGO}
-          onClick={() => onClickMarker(DEFAULT_CENTER)}
+          onClick={() => onClickMarker(position)}
         />
 
         {/* Map Info */}
-        {position && (
+        {isShow && (
           <InfoLayout
-            {...{ onCloseClick, position }}
+            onCloseClick={onCloseClick}
+            position={position}
             children={<MapInfoContainer />}
           />
         )}
