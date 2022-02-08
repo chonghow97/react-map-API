@@ -6,7 +6,7 @@ export const MapInfoContainer: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <h1>{title ?? "InfoWindow"}</h1>
+      <h1>{title}</h1>
     </Container>
   );
 };

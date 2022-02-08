@@ -26,7 +26,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
     null
   );
   const [isOpenMapInfo, setisOpenMapInfo] = useState(false);
-  const [title, setTitle] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState("Griter");
   const [position, setPosition] = useState<CoordinateType>(DEFAULT_CENTER);
 
   // ==============  FUNCTION
