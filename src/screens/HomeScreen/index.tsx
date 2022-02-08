@@ -1,11 +1,7 @@
-import Map from "../containers/Map";
+import Map from "../../containers/Map";
 
-import { DEFAULT_API_KEY, DEFAULT_CENTER } from "../config/constant";
-
-const containerStyle = {
-  width: "100%",
-  height: "100vh",
-};
+import { DEFAULT_API_KEY, DEFAULT_CENTER } from "../../config/constant";
+import { containerStyle } from "./style";
 
 export const HomeScreen: React.FC = () => {
   return (
