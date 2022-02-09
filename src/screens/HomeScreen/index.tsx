@@ -13,9 +13,13 @@ export const HomeScreen: React.FC = () => {
     <MapContext.Provider value={{ mapLists, setMapLists }}>
       <main className="flex">
         <div className="flex-1 p-3 min-w-[300px] hidden md:block">
-          <h1>Map List</h1>
+          <h1>Map History</h1>
           {mapLists.map((mapList) => {
-            return <h1>{mapList.formatted_address}</h1>;
+            return (
+              <section key={mapList.place_id}>
+                {mapList.formatted_address}
+              </section>
+            );
           })}
         </div>
 

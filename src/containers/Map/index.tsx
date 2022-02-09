@@ -15,6 +15,9 @@ import { MapInfoContainer } from "../MapInfoContainer";
 import { InfoLayout, SearchBar } from "../../components";
 import { useMapHook } from "../../hooks/useMapHook";
 import { MapContext } from "../../context";
+import { Libraries } from "../../@types";
+
+const libraries: Libraries = ["places"];
 
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
@@ -35,7 +38,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
 
   // ==============  RENDER
   return (
-    <LoadScript googleMapsApiKey={DEFAULT_API_KEY} libraries={["places"]}>
+    <LoadScript googleMapsApiKey={DEFAULT_API_KEY} libraries={libraries}>
       {/* Map */}
       <GoogleMap center={position} {...restProps}>
         {/* Auto Complete */}
