@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { DEFAULT_API_KEY, DEFAULT_LOGO } from "../../config/constant";
 
@@ -14,12 +14,15 @@ import { MapInfoContainer } from "../MapInfoContainer";
 
 import { InfoLayout, SearchBar } from "../../components";
 import { useMapHook } from "../../hooks/useMapHook";
+import { MapContext } from "../../context";
 
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
   const { children, ...restProps } = props;
 
   // ============== HOOKS
+  const { setMapLists } = useContext(MapContext);
+
   const {
     onCloseClick,
     onLoad,
@@ -28,7 +31,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
     isOpenMapInfo,
     title,
     position,
-  } = useMapHook();
+  } = useMapHook(setMapLists);
 
   // ==============  RENDER
   return (
