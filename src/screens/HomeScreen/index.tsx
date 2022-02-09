@@ -5,10 +5,9 @@ import { containerStyle } from "./style";
 
 import { MapContext } from "../../context";
 import { PlaceResult } from "../../@types";
-import React from "react";
 
 export const HomeScreen: React.FC = () => {
-  const [mapLists, setMapLists] = useState<Array<PlaceResult>>([]);
+  const [mapLists, setMapLists] = useState<PlaceResult[]>([]);
 
   return (
     <MapContext.Provider value={{ mapLists, setMapLists }}>
