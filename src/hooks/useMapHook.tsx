@@ -24,6 +24,7 @@ export const useMapHook = () => {
       setTitle(name || "");
       const { location } = geometry || {};
       setPosition((prev) => location || prev);
+      setisOpenMapInfo(false);
     } else {
       console.error("unable to load cause autocomplete is null");
     }
