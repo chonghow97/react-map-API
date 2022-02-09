@@ -3,7 +3,11 @@ import { AutocompleteType, CoordinateType } from "../@types";
 import { DEFAULT_CENTER } from "../config/constant";
 import { getLocationString } from "../helper";
 
-export const useMapHook = () => {
+export const useMapHook = (
+  setMapLists: React.Dispatch<
+    React.SetStateAction<google.maps.places.PlaceResult[]>
+  >
+) => {
   // ============== STATE
   const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
     null
@@ -21,8 +25,9 @@ export const useMapHook = () => {
   const onPlaceChanged = () => {
     if (autocomplete !== null) {
       const { geometry, name } = autocomplete.getPlace() || {};
-      setTitle(name || "");
       const { location } = geometry || {};
+      setTitle(name || "");
+      setMapLists((prev) => [...prev, autocomplete.getPlace()]);
       setPosition((prev) => location || prev);
       setisOpenMapInfo(false);
     } else {
