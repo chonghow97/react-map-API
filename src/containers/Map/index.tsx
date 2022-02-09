@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import {
-  DEFAULT_API_KEY,
-  DEFAULT_CENTER,
-  DEFAULT_LOGO,
-} from "../../config/constant";
-import { AutocompleteType, CoordinateType } from "../../@types";
+import { DEFAULT_API_KEY, DEFAULT_LOGO } from "../../config/constant";
 
 import {
   GoogleMap,
@@ -18,56 +13,22 @@ import {
 import { MapInfoContainer } from "../MapInfoContainer";
 
 import { InfoLayout, SearchBar } from "../../components";
+import { useMapHook } from "../../hooks/useMapHook";
 
 const Map: React.FC<GoogleMapProps> = (props) => {
   // ============== STATE & VARIABLE
   const { children, ...restProps } = props;
-  const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
-    null
-  );
-  const [isOpenMapInfo, setisOpenMapInfo] = useState(false);
-  const [title, setTitle] = useState("Griter");
-  const [position, setPosition] = useState<CoordinateType>(DEFAULT_CENTER);
 
   // ============== HOOKS
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(onSuccess);
-    } else {
-      console.log("Geolocation is not supported for this Browser/OS.");
-    }
-  }, []);
-
-  // ==============  FUNCTION
-  const onSuccess: PositionCallback = (current) => {
-    const { latitude, longitude } = current.coords;
-    setPosition({ lat: latitude, lng: longitude });
-  };
-
-  const onCloseClick = () => {
-    setisOpenMapInfo(false);
-  };
-
-  const onLoad: (autocomplete: AutocompleteType) => void = (autocomplete) => {
-    setAutoComplete(autocomplete);
-  };
-
-  const onPlaceChanged = () => {
-    if (autocomplete !== null) {
-      const { geometry, name } = autocomplete.getPlace() || {};
-      setTitle(name || "");
-      const { location } = geometry || {};
-      setPosition((prev) => location || prev);
-    } else {
-      console.error("unable to load cause autocomplete is null");
-    }
-  };
-
-  const onClickMarker: (curr: CoordinateType) => void = (curr) => {
-    setPosition(curr);
-    setisOpenMapInfo(true);
-  };
+  const {
+    onCloseClick,
+    onLoad,
+    onPlaceChanged,
+    onClickMarker,
+    isOpenMapInfo,
+    title,
+    position,
+  } = useMapHook();
 
   // ==============  RENDER
   return (
