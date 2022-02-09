@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   DEFAULT_API_KEY,
@@ -29,7 +29,22 @@ const Map: React.FC<GoogleMapProps> = (props) => {
   const [title, setTitle] = useState("Griter");
   const [position, setPosition] = useState<CoordinateType>(DEFAULT_CENTER);
 
+  // ============== HOOKS
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(onSuccess);
+    } else {
+      console.log("Geolocation is not supported for this Browser/OS.");
+    }
+  }, []);
+
   // ==============  FUNCTION
+  const onSuccess: PositionCallback = (a) => {
+    const { latitude, longitude } = a.coords;
+    setPosition({ lat: latitude, lng: longitude });
+  };
+
   const onCloseClick = () => {
     setisOpenMapInfo(false);
   };
@@ -43,7 +58,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
       const { geometry, name } = autocomplete.getPlace() || {};
       setTitle(name || "");
       const { location } = geometry || {};
-      setPosition(location);
+      setPosition(location || DEFAULT_CENTER);
     } else {
       console.error("unable to load cause autocomplete is null");
     }
@@ -67,7 +82,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
 
         {/* Marker */}
         <Marker
-          position={position || DEFAULT_CENTER}
+          position={position}
           icon={DEFAULT_LOGO}
           onClick={() => onClickMarker(position)}
         />
