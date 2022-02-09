@@ -40,8 +40,8 @@ const Map: React.FC<GoogleMapProps> = (props) => {
   }, []);
 
   // ==============  FUNCTION
-  const onSuccess: PositionCallback = (a) => {
-    const { latitude, longitude } = a.coords;
+  const onSuccess: PositionCallback = (current) => {
+    const { latitude, longitude } = current.coords;
     setPosition({ lat: latitude, lng: longitude });
   };
 
@@ -58,7 +58,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
       const { geometry, name } = autocomplete.getPlace() || {};
       setTitle(name || "");
       const { location } = geometry || {};
-      setPosition(location || DEFAULT_CENTER);
+      setPosition((prev) => location || prev);
     } else {
       console.error("unable to load cause autocomplete is null");
     }
