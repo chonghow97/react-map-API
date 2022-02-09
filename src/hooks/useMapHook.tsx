@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { AutocompleteType, CoordinateType } from "../@types";
+import { AutocompleteType, CoordinateType, MapHookType } from "../@types";
 import { DEFAULT_CENTER } from "../config/constant";
 import { getLocationString } from "../helper";
 
-export const useMapHook = (
-  setMapLists: React.Dispatch<
-    React.SetStateAction<google.maps.places.PlaceResult[]>
-  >
-) => {
+export const useMapHook: MapHookType = (setMapLists) => {
   // ============== STATE
   const [autocomplete, setAutoComplete] = useState<AutocompleteType | null>(
     null
