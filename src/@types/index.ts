@@ -22,3 +22,10 @@ export type MapHookType = (
   title: string;
   position: CoordinateType;
 };
+
+export type MapContextType = {
+  mapLists: google.maps.places.PlaceResult[];
+  setMapLists: React.Dispatch<
+    React.SetStateAction<google.maps.places.PlaceResult[]>
+  >;
+};

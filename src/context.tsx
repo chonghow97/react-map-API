@@ -1,4 +1,4 @@
 import React from "react";
+import { MapContextType } from "./@types";
 
-//FIXME: figure out proper state
-export const MapContext: any = React.createContext({});
+export const MapContext = React.createContext<MapContextType | null>(null);

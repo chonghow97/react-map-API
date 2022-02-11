@@ -1,7 +1,7 @@
 import Marker from "../asset/image/marker.png";
 
-export const lat = 5.4386528290062275;
-export const lng = 100.38293858211833;
+const lat = 5.4386528290062275;
+const lng = 100.38293858211833;
 export const DEFAULT_LOGO = Marker;
 
 export type GeoType = google.maps.LatLng | google.maps.LatLngLiteral;
