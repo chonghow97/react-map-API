@@ -24,7 +24,7 @@ const Map: React.FC<GoogleMapProps> = (props) => {
   const { children, ...restProps } = props;
 
   // ============== HOOKS
-  const { setMapLists } = useContext(MapContext);
+  const { setMapLists } = useContext(MapContext) || {};
 
   const {
     onCloseClick,

@@ -23,7 +23,7 @@ export const useMapHook: MapHookType = (setMapLists) => {
       const { geometry, name } = autocomplete.getPlace() || {};
       const { location } = geometry || {};
       setTitle(name || "");
-      setMapLists((prev) => [...prev, autocomplete.getPlace()]);
+      setMapLists?.((prev) => [...prev, autocomplete.getPlace()]);
       setPosition((prev) => location || prev);
       setisOpenMapInfo(false);
     } else {

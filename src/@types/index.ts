@@ -10,7 +10,7 @@ export type Libraries = (
 )[];
 
 export type MapHookType = (
-  setMapLists: React.Dispatch<
+  setMapLists?: React.Dispatch<
     React.SetStateAction<google.maps.places.PlaceResult[]>
   >
 ) => {
@@ -21,4 +21,11 @@ export type MapHookType = (
   isOpenMapInfo: boolean;
   title: string;
   position: CoordinateType;
+};
+
+export type MapContextType = {
+  mapLists: google.maps.places.PlaceResult[];
+  setMapLists: React.Dispatch<
+    React.SetStateAction<google.maps.places.PlaceResult[]>
+  >;
 };
